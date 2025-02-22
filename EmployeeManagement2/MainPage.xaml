@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EmployeeManagement2.MainPage"
+             Title="">
+    <VerticalStackLayout Padding="10" Spacing="10">
+        
+        <HorizontalStackLayout Spacing="10" HeightRequest="180" HorizontalOptions="Center">
+            <Frame HeightRequest="150">
+                <VerticalStackLayout WidthRequest="200">
+                    <Label Text="Departamentos" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <ListView x:Name="DepartmentsName"
+                              ItemTapped="OnDepartmentSelected"
+                              HeightRequest="200">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label Text="{Binding Name}" FontSize="16" HorizontalOptions="Center"/>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame HeightRequest="150">
+                <VerticalStackLayout WidthRequest="150">
+                    <Label Text="Ubicaciones" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <ListView x:Name="DepartmentsLocate"
+                              ItemTapped="OnLocationSelected"
+                              HeightRequest="200">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label Text="{Binding Location}" FontSize="16" HorizontalOptions="Center"/>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </VerticalStackLayout>
+            </Frame>
+        </HorizontalStackLayout>
+
+        <Frame WidthRequest="1080">
+            <VerticalStackLayout Spacing="10">
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                    <Entry x:Name="entryLastName" WidthRequest="100" Placeholder="Last Name..."/>
+                    <Entry x:Name="entryJob" WidthRequest="100" Placeholder="Job..."/>
+                    <Entry x:Name="entrySalary" WidthRequest="100" Placeholder="Salary..."/>
+                    <Entry x:Name="entryComission" WidthRequest="100" Placeholder="Comission..."/>
+                    <DatePicker x:Name="pickerStartDate" WidthRequest="120"/>
+                    <Picker x:Name="pickerDepartment" WidthRequest="80" SelectedIndexChanged="OnPickerNameDepartmentSelected" ItemsSource="{Binding DepartmentsName}" ItemDisplayBinding="{Binding Name}"/>
+                    <Picker x:Name="pickerDepartmentLocation" WidthRequest="80" IsEnabled="False" ItemsSource="{Binding DepartmentsLocation}" ItemDisplayBinding="{Binding Location}"  />
+                    <Button WidthRequest="80" Text="Save" Clicked="OnSaveEmployee"/>
+                    <Button WidthRequest="80" Text="Update" Clicked="OnUpdateEmployee"/>
+                    <Button WidthRequest="80" Text="Delete" Clicked="OnDeleteEmployee"/>
+                </HorizontalStackLayout>
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                    <Label Text="Buscar por:"/>
+                    <Picker x:Name="pickerSearchBy" WidthRequest="100" SelectedIndexChanged="OnSearchByChanged">
+                        <Picker.Items>
+                            <x:String>Last Name</x:String>
+                            <x:String>Job</x:String>
+                            <x:String>Salary</x:String>
+                            <x:String>Start Date</x:String>
+                            <x:String>Comission</x:String>
+                        </Picker.Items>
+                    </Picker>
+                    <SearchBar x:Name ="searchBar" WidthRequest="200" TextChanged="OnSearchTextChanged"/>
+                    <DatePicker x:Name="datePickerSearch" WidthRequest="120" IsVisible="False"/>
+                    <Button Text="Buscar" Clicked="OnSearchButtonClicked" IsVisible="False" x:Name="searchButton"/>
+                    <Button WidthRequest="80" Text="Clear" Clicked="OnClearDataEntry"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+
+        
+        <Frame HeightRequest="235" WidthRequest="900">
+            <StackLayout>
+                <Grid ColumnDefinitions="*,*,*,*,*,*" Padding="5" BackgroundColor="LightGray">
+                    <Label Text="ID" FontSize="16" FontAttributes="Bold" Grid.Column="0" HorizontalTextAlignment="Center"/>
+                    <Label Text="Apellido" FontSize="16" FontAttributes="Bold" Grid.Column="1" HorizontalTextAlignment="Center"/>
+                    <Label Text="Trabajo" FontSize="16" FontAttributes="Bold" Grid.Column="2" HorizontalTextAlignment="Center"/>
+                    <Label Text="Salario" FontSize="16" FontAttributes="Bold" Grid.Column="3" HorizontalTextAlignment="Center"/>
+                    <Label Text="Comision" FontSize="16" FontAttributes="Bold" Grid.Column="4" HorizontalTextAlignment="Center"/>
+                    <Label Text="Fecha de Inicio" FontSize="16" FontAttributes="Bold" Grid.Column="5" HorizontalTextAlignment="Center"/>
+                </Grid>
+
+                <ListView x:Name="Employee" HeightRequest="300" ItemTapped="OnEmployeeSelected">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid ColumnDefinitions="*,*,*,*,*,*" Padding="5" Margin="1">
+                                    <Label Text="{Binding EmployeeId}" FontSize="14" Grid.Column="0" HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding LastName}" FontSize="14" Grid.Column="1" HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding Job}" FontSize="14" Grid.Column="2" HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding Salary}" FontSize="14" Grid.Column="3" HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding Commission}" FontSize="14" Grid.Column="4" HorizontalTextAlignment="Center"/>
+                                    <Label Text="{Binding StartDate}" FontSize="14" Grid.Column="5" HorizontalTextAlignment="Center"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Frame>
+    </VerticalStackLayout>
+</ContentPage>
