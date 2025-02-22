@@ -23,11 +23,11 @@ public partial class MainPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await LoadDepartment(); // Carga los departamentos al aparecer la p醙ina
-        await LoadEmployees(); // Carga los empleados al aparecer la p醙ina
+        await LoadDepartment(); // Carga los departamentos al aparecer la p谩gina
+        await LoadEmployees(); // Carga los empleados al aparecer la p谩gina
     }
 
-    // M閠odo para cargar los departamentos desde la base de datos
+    // M茅todo para cargar los departamentos desde la base de datos
     public async Task LoadDepartment()
     {
         departmentList = await dataBaseQuery.SelectDepartmentName(); // Obtiene la lista de departamentos
@@ -35,13 +35,13 @@ public partial class MainPage : ContentPage
         pickerDepartment.ItemsSource = departmentList; // Asigna la lista
     }
 
-    // M閠odo para cargar empleados seg鷑 la ubicaci髇 seleccionada
+    // M茅todo para cargar empleados seg煤n la ubicaci贸n seleccionada
     private async Task LoadEmployees()
     {
-        var selectedLocation = pickerDepartmentLocation.SelectedItem as Department; // Obtiene la ubicaci髇 seleccionada
+        var selectedLocation = pickerDepartmentLocation.SelectedItem as Department; // Obtiene la ubicaci贸n seleccionada
         if (selectedLocation != null)
         {
-            employeeList = await dataBaseQuery.SelectEmployeesByLocation(selectedLocation.Location); // Obtiene empleados por ubicaci髇
+            employeeList = await dataBaseQuery.SelectEmployeesByLocation(selectedLocation.Location); // Obtiene empleados por ubicaci贸n
             Employee.ItemsSource = employeeList; // Actualiza la lista de empleados
         }
     }
@@ -59,15 +59,15 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // Evento al seleccionar una ubicaci髇
+    // Evento al seleccionar una ubicaci贸n
     private async void OnLocationSelected(object sender, ItemTappedEventArgs e)
     {
         if (e.Item != null)
         {
-            var selectedLocation = (Department)e.Item; // Obtiene la ubicaci髇 seleccionada
+            var selectedLocation = (Department)e.Item; // Obtiene la ubicaci贸n seleccionada
             string departmentLocation = selectedLocation.Location;
 
-            employeeList = await dataBaseQuery.SelectEmployeesByLocation(departmentLocation); // Obtiene empleados por ubicaci髇
+            employeeList = await dataBaseQuery.SelectEmployeesByLocation(departmentLocation); // Obtiene empleados por ubicaci贸n
             Employee.ItemsSource = employeeList; // Actualiza la lista de empleados
         }
     }
@@ -188,7 +188,7 @@ public partial class MainPage : ContentPage
     // Evento para limpiar los campos de entrada
     private void OnClearDataEntry(object sender, EventArgs e)
     {
-        ClearInputFields(); // Llama al m閠odo para limpiar los campos
+        ClearInputFields(); // Llama al m茅todo para limpiar los campos
     }
 
     // Evento que se dispara al seleccionar un empleado
@@ -216,8 +216,8 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        // Confirmar la eliminaci髇
-        bool confirm = await DisplayAlert("Confirmaci髇", "Seguro que quieres eliminar este Empleado?", "Yes", "No");
+        // Confirmar la eliminaci贸n
+        bool confirm = await DisplayAlert("Confirmaci贸n", "Seguro que quieres eliminar este Empleado?", "Yes", "No");
         if (confirm)
         {
             try
@@ -225,7 +225,7 @@ public partial class MainPage : ContentPage
                 await dataBaseQuery.DeleteEmployee(SelectedEmployee.EmployeeId); // Elimina el empleado
                 await DisplayAlert("Exito", "Empleado Eliminado Correctamente", "OK");
 
-                // Limpia los campos de entrad adespu閟 de eliminar un empleado
+                // Limpia los campos de entrad adespu茅s de eliminar un empleado
                 ClearInputFields();
 
                 // Actualiza la lista de empleados
@@ -243,13 +243,13 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // Evento al cambiar la opcion de b鷖queda
+    // Evento al cambiar la opcion de b煤squeda
     private void OnSearchByChanged(object sender, EventArgs e)
     {
-        string selectedCriteria = pickerSearchBy.SelectedItem as string;
+        string selectedOption = pickerSearchBy.SelectedItem as string;
 
         // Muestra y oculta el searchBar y el datePicker
-        if (selectedCriteria == "Start Date")
+        if (selectedOption == "Start Date")
         {
             searchBar.IsVisible = false; 
             datePickerSearch.IsVisible = true;
@@ -263,12 +263,12 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // Evento al hacer clic en el bot髇 de b鷖queda solo para la fecha de inicio
+    // Evento al hacer clic en el bot贸n de b煤squeda solo para la fecha de inicio
     private async void OnSearchButtonClicked(object sender, EventArgs e)
     {
-        string selectedCriteria = pickerSearchBy.SelectedItem as string;
+        string selectedOption = pickerSearchBy.SelectedItem as string;
 
-        if (selectedCriteria == "Start Date")
+        if (selectedOption == "Start Date")
         {
             DateTime selectedDate = datePickerSearch.Date;
 
@@ -330,7 +330,7 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // M閠odo para limpiar los campos de entrada
+    // M茅todo para limpiar los campos de entrada
     private void ClearInputFields()
     {
         entryLastName.Text = string.Empty;
