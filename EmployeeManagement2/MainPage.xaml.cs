@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 
 public partial class MainPage : ContentPage
 {
-    // Objeto de la clase que maneja las consultas a la base de datos
     DatabaseQuery dataBaseQuery = new DatabaseQuery();
 
     // Listas para almacenar departamentos, ubicaciones y empleados
@@ -27,26 +26,26 @@ public partial class MainPage : ContentPage
         await LoadEmployees(); // Carga los empleados al aparecer la página
     }
 
-    // Método para cargar los departamentos desde la base de datos
+    //Carga los departamentos
     public async Task LoadDepartment()
     {
-        departmentList = await dataBaseQuery.SelectDepartmentName(); // Obtiene la lista de departamentos
-        DepartmentsName.ItemsSource = departmentList; // Asigna la lista
-        pickerDepartment.ItemsSource = departmentList; // Asigna la lista
+        departmentList = await dataBaseQuery.SelectDepartmentName(); 
+        DepartmentsName.ItemsSource = departmentList; 
+        pickerDepartment.ItemsSource = departmentList;
     }
 
-    // Método para cargar empleados según la ubicación seleccionada
+    // Carga los empleados
     private async Task LoadEmployees()
     {
         var selectedLocation = pickerDepartmentLocation.SelectedItem as Department; // Obtiene la ubicación seleccionada
         if (selectedLocation != null)
         {
-            employeeList = await dataBaseQuery.SelectEmployeesByLocation(selectedLocation.Location); // Obtiene empleados por ubicación
+            employeeList = await dataBaseQuery.SelectEmployeesByLocation(selectedLocation.Location);
             Employee.ItemsSource = employeeList; // Actualiza la lista de empleados
         }
     }
 
-    // Evento al seleccionar un departamento
+    // Al seleccionar departamento muestra las localizaciones
     private async void OnDepartmentSelected(object sender, ItemTappedEventArgs e)
     {
         if (e.Item != null)
@@ -54,35 +53,35 @@ public partial class MainPage : ContentPage
             var selectedDepartment = (Department)e.Item; // Obtiene el departamento seleccionado
             string departmentName = selectedDepartment.Name;
 
-            locationList = await dataBaseQuery.SelectLocationByDepartment(departmentName); // Obtiene ubicaciones por departamento
-            DepartmentsLocate.ItemsSource = locationList; // Actualiza la lista de ubicaciones
+            locationList = await dataBaseQuery.SelectLocationByDepartment(departmentName); 
+            DepartmentsLocate.ItemsSource = locationList; // Actualiza la lista de localizaciones
         }
     }
 
-    // Evento al seleccionar una ubicación
+    //Al seleccionar localizacione muestra empleados en esa misma ubicacion
     private async void OnLocationSelected(object sender, ItemTappedEventArgs e)
     {
         if (e.Item != null)
         {
-            var selectedLocation = (Department)e.Item; // Obtiene la ubicación seleccionada
+            var selectedLocation = (Department)e.Item; // Obtiene la localizacion seleccionada
             string departmentLocation = selectedLocation.Location;
 
-            employeeList = await dataBaseQuery.SelectEmployeesByLocation(departmentLocation); // Obtiene empleados por ubicación
-            Employee.ItemsSource = employeeList; // Actualiza la lista de empleados
+            employeeList = await dataBaseQuery.SelectEmployeesByLocation(departmentLocation);
+            Employee.ItemsSource = employeeList;
         }
     }
 
-    // Evento al seleccionar un departamento en el picker
+    // Al seleccionar el departamento del picker
     private async void OnPickerNameDepartmentSelected(object sender, EventArgs e)
     {
-        var selectedDepartment = pickerDepartment.SelectedItem as Department;
+        var selectedDepartment = pickerDepartment.SelectedItem as Department; //Obtiene el departamento seleccionado
 
         if (selectedDepartment != null)
         {
             string departmentName = selectedDepartment.Name;
-            locationList = await dataBaseQuery.SelectLocationByDepartment(departmentName); // Obtiene ubicaciones por departamento
-            pickerDepartmentLocation.ItemsSource = locationList; // Asigna las ubicaciones al picker
-            pickerDepartmentLocation.IsEnabled = true; // Habilita el picker de ubicaciones
+            locationList = await dataBaseQuery.SelectLocationByDepartment(departmentName);
+            pickerDepartmentLocation.ItemsSource = locationList;
+            pickerDepartmentLocation.IsEnabled = true; 
         }
         else
         {
@@ -90,7 +89,7 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // Evento para guardar un nuevo empleado
+    //Inserta nuevo empleados
     private async void OnSaveEmployee(object sender, EventArgs e)
     {
         // Obtiene los valores de entrada
@@ -113,33 +112,35 @@ public partial class MainPage : ContentPage
         var selectedDepartment = pickerDepartment.SelectedItem as Department;
         var selectedLocation = pickerDepartmentLocation.SelectedItem as Department;
 
+        // Obtiene el ID del departamento
         string departmentName = selectedDepartment.Name;
         string departmentLocation = selectedLocation.Location;
 
-        int departmentId = await dataBaseQuery.SelectDepartmentIdByNameAndLocation(departmentName, departmentLocation); // Obtiene el ID del departamento
+        int departmentId = await dataBaseQuery.SelectDepartmentIdByNameAndLocation(departmentName, departmentLocation); 
 
         if (departmentId == 0)
         {
-            await DisplayAlert("Error", "The department could not be found.", "OK");
+            await DisplayAlert("Error", "El departamento no se ha podido encontrar", "OK");
             return;
         }
 
         try
         {
-            await dataBaseQuery.InsertEmployee(lastName, job, salary, commission, startDate, departmentId); // Inserta el nuevo empleado
-            await DisplayAlert("Success", "Employee added successfully.", "OK");
+            // Inserta el nuevo empleado
+            await dataBaseQuery.InsertEmployee(lastName, job, salary, commission, startDate, departmentId); 
+            await DisplayAlert("Exito", "Empleado añadido correctamente", "OK");
             ClearInputFields(); // Limpia los campos de entrada
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", "An error occurred while saving the employee: " + ex.Message, "OK");
+            await DisplayAlert("Error", "A Ocurrido un Error al añadir un empleado", "OK");
         }
     }
 
-    // Evento para actualizar un empleado existente
+   //Actualiza empleado existente
     private async void OnUpdateEmployee(object sender, EventArgs e)
     {
-        // Obtener los valores de entrada
+        // Obtiene los valores de entrada
         string lastName = entryLastName.Text;
         string job = entryJob.Text;
         double salary;
@@ -153,17 +154,18 @@ public partial class MainPage : ContentPage
             pickerDepartmentLocation.SelectedItem == null ||
             SelectedEmployee == null)
         {
-            await DisplayAlert("Error", "Please fill in all required fields correctly.", "OK");
+            await DisplayAlert("Error", "Por favor Introduce todos los Datos", "OK");
             return;
         }
 
         var selectedDepartment = pickerDepartment.SelectedItem as Department;
         var selectedLocation = pickerDepartmentLocation.SelectedItem as Department;
 
+        // Obtiene el ID del departamento
         string departmentName = selectedDepartment.Name;
         string departmentLocation = selectedLocation.Location;
 
-        int departmentId = await dataBaseQuery.SelectDepartmentIdByNameAndLocation(departmentName, departmentLocation); // Obtiene el ID del departamento
+        int departmentId = await dataBaseQuery.SelectDepartmentIdByNameAndLocation(departmentName, departmentLocation); 
 
         if (departmentId == 0)
         {
@@ -177,7 +179,7 @@ public partial class MainPage : ContentPage
         {
             await dataBaseQuery.UpdateEmployee(lastName, job, salary, commission, startDate, departmentId, employeeId); // Actualiza el empleado
             await DisplayAlert("Exito", "Empleado Actualizado Correctamente", "OK");
-            ClearInputFields(); // Limpia los campos de entrada
+            ClearInputFields(); 
         }
         catch (Exception ex)
         {
@@ -185,20 +187,20 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // Evento para limpiar los campos de entrada
+    // Limpia los campos de entrada
     private void OnClearDataEntry(object sender, EventArgs e)
     {
         ClearInputFields(); // Llama al método para limpiar los campos
     }
 
-    // Evento que se dispara al seleccionar un empleado
+    //Evento al seleccionar un empleado
     private async void OnEmployeeSelected(object sender, ItemTappedEventArgs e)
     {
         if (e.Item != null)
         {
             SelectedEmployee = (Employee)e.Item; // Obtiene el empleado seleccionado
 
-            // Rellena los campos de entrada con los datos del empleado seleccionado
+            
             entryLastName.Text = SelectedEmployee.LastName;
             entryJob.Text = SelectedEmployee.Job;
             entrySalary.Text = SelectedEmployee.Salary.ToString();
@@ -207,7 +209,7 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // Evento para eliminar un empleado
+    // Elimina empleado seleccionado
     private async void OnDeleteEmployee(object sender, EventArgs e)
     {
         if (SelectedEmployee == null)
@@ -216,7 +218,7 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        // Confirmar la eliminación
+        // Confirma la eliminación
         bool confirm = await DisplayAlert("Confirmación", "Seguro que quieres eliminar este Empleado?", "Yes", "No");
         if (confirm)
         {
@@ -225,20 +227,20 @@ public partial class MainPage : ContentPage
                 await dataBaseQuery.DeleteEmployee(SelectedEmployee.EmployeeId); // Elimina el empleado
                 await DisplayAlert("Exito", "Empleado Eliminado Correctamente", "OK");
 
-                // Limpia los campos de entrad adespués de eliminar un empleado
+                // Limpia los campos de entrada
                 ClearInputFields();
 
                 // Actualiza la lista de empleados
                 var location = pickerDepartmentLocation.SelectedItem as Department;
                 if (location != null)
                 {
-                    employeeList = await dataBaseQuery.SelectEmployeesByLocation(location.Location); // Carga la lista de empleados
-                    Employee.ItemsSource = employeeList; // Actualiza la lista de empleados
+                    employeeList = await dataBaseQuery.SelectEmployeesByLocation(location.Location); 
+                    Employee.ItemsSource = employeeList; 
                 }
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", "An error occurred while deleting the employee: " + ex.Message, "OK");
+                await DisplayAlert("Error", "A Ocurrido un error al Eliminar un Empleado", "OK");
             }
         }
     }
@@ -248,7 +250,7 @@ public partial class MainPage : ContentPage
     {
         string selectedCriteria = pickerSearchBy.SelectedItem as string;
 
-        // Muestra y oculta el searchBar y el datePicker
+        // Muestra y oculta al elegir la opcion de Fecha
         if (selectedCriteria == "Start Date")
         {
             searchBar.IsVisible = false; 
@@ -263,72 +265,91 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // Evento al hacer clic en el botón de búsqueda solo para la fecha de inicio
+    // Evento para filtrar por Fecha    
     private async void OnSearchButtonClicked(object sender, EventArgs e)
     {
-        string selectedCriteria = pickerSearchBy.SelectedItem as string;
+        string selectedOption = pickerSearchBy.SelectedItem as string;
 
-        if (selectedCriteria == "Start Date")
+        if (selectedOption == "Start Date")
         {
             DateTime selectedDate = datePickerSearch.Date;
 
-            // Filtra por fecha de inicio
-            List<Employee> filteredEmployees = employeeList
-                .Where(emp => emp.StartDate.Date == selectedDate.Date)
-                .ToList();
+            if (employeeList != null)
+            {
+                // Filtra por fecha de inicio
+                List<Employee> filteredEmployees = employeeList
+                    .Where(emp => emp.StartDate.Date == selectedDate.Date)
+                    .ToList();
 
-            Employee.ItemsSource = filteredEmployees; // Actualiza la lista de empleados mostrada
+                Employee.ItemsSource = filteredEmployees; // Actualiza la lista de empleados mostrada
+            }
         }
     }
-
-    // Evento al cambiar el texto en el SearchBar
+    //Evento para filtrar por
     private async void OnSearchTextChanged(object sender, TextChangedEventArgs e)
     {
         string selectedOptionPicker = pickerSearchBy.SelectedItem as string;
 
-        if (selectedOptionPicker != "Start Date") //Filtra si no es por fecha
+        if (selectedOptionPicker != "Start Date") // Filtra si no es por fecha
         {
             string searchText = e.NewTextValue;
 
             if (string.IsNullOrEmpty(searchText))
             {
-                // Mostrar todos los empleados si no hay texto
-                var location = pickerDepartmentLocation.SelectedItem as Department;
+                // Si no hay texto en el searchbar,muestra los empleados por busqueda
+                var location = DepartmentsLocate.SelectedItem as Department;
                 if (location != null)
                 {
-                    employeeList = await dataBaseQuery.SelectEmployeesByLocation(location.Location); // Vuelve a cargar la lista de empleados
-                    Employee.ItemsSource = employeeList; // Actualiza la lista de empleados
+                    employeeList = await dataBaseQuery.SelectEmployeesByLocation(location.Location);
+                    Employee.ItemsSource = employeeList; // Actualizamos la lista
                 }
                 return;
             }
 
             List<Employee> filteredEmployees = new List<Employee>();
 
+            // Filtra segun la opcion del picker
             switch (selectedOptionPicker)
             {
                 case "Last Name":
-                    filteredEmployees = employeeList.Where(emp => emp.LastName.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+                    filteredEmployees = employeeList
+                        .Where(emp => emp.LastName.Contains(searchText, StringComparison.OrdinalIgnoreCase)) //Ignora mayusuclas minusculas
+                        .ToList();
                     break;
                 case "Job":
-                    filteredEmployees = employeeList.Where(emp => emp.Job.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+                    filteredEmployees = employeeList
+                        .Where(emp => emp.Job.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
                     break;
                 case "Salary":
                     if (double.TryParse(searchText, out double salary))
                     {
-                        filteredEmployees = employeeList.Where(emp => emp.Salary == salary).ToList();
+                        filteredEmployees = employeeList
+                            .Where(emp => emp.Salary.ToString().Contains(searchText))
+                            .ToList();
                     }
                     break;
                 case "Comission":
                     if (double.TryParse(searchText, out double commission))
                     {
-                        filteredEmployees = employeeList.Where(emp => emp.Commission == commission).ToList();
+                        filteredEmployees = employeeList
+                            .Where(emp => emp.Commission.ToString().Contains(searchText)) //Contains verifica si encuentra la cadena
+                            .ToList();
                     }
                     break;
             }
 
-            Employee.ItemsSource = filteredEmployees; // Actualiza la lista de empleados mostrada
+            // Actualizamos el ItemsSource con los resultados filtrados
+            Employee.ItemsSource = filteredEmployees;
+
+
+            if (string.IsNullOrEmpty(searchBar.Text))
+            {
+                LoadEmployees();
+            }
         }
     }
+
 
     // Método para limpiar los campos de entrada
     private void ClearInputFields()
@@ -340,5 +361,7 @@ public partial class MainPage : ContentPage
         pickerStartDate.Date = DateTime.Now;
         pickerDepartment.SelectedIndex = -1;
         pickerDepartmentLocation.SelectedIndex = -1;
+        pickerSearchBy.SelectedIndex = -1;
+        searchBar.Text = string.Empty;
     }
 }

@@ -8,7 +8,7 @@
         <HorizontalStackLayout Spacing="10" HeightRequest="180" HorizontalOptions="Center">
             <Frame HeightRequest="150">
                 <VerticalStackLayout WidthRequest="200">
-                    <Label Text="Departamentos" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <Label Text="Departments" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                     <ListView x:Name="DepartmentsName"
                               ItemTapped="OnDepartmentSelected"
                               HeightRequest="200">
@@ -25,7 +25,7 @@
 
             <Frame HeightRequest="150">
                 <VerticalStackLayout WidthRequest="150">
-                    <Label Text="Ubicaciones" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    <Label Text="Locations" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
                     <ListView x:Name="DepartmentsLocate"
                               ItemTapped="OnLocationSelected"
                               HeightRequest="200">
@@ -56,7 +56,7 @@
                     <Button WidthRequest="80" Text="Delete" Clicked="OnDeleteEmployee"/>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
-                    <Label Text="Buscar por:"/>
+                    <Label Text="Search By:"/>
                     <Picker x:Name="pickerSearchBy" WidthRequest="100" SelectedIndexChanged="OnSearchByChanged">
                         <Picker.Items>
                             <x:String>Last Name</x:String>
@@ -68,7 +68,7 @@
                     </Picker>
                     <SearchBar x:Name ="searchBar" WidthRequest="200" TextChanged="OnSearchTextChanged"/>
                     <DatePicker x:Name="datePickerSearch" WidthRequest="120" IsVisible="False"/>
-                    <Button Text="Buscar" Clicked="OnSearchButtonClicked" IsVisible="False" x:Name="searchButton"/>
+                    <Button Text="Search" Clicked="OnSearchButtonClicked" IsVisible="False" x:Name="searchButton"/>
                     <Button WidthRequest="80" Text="Clear" Clicked="OnClearDataEntry"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
@@ -79,11 +79,11 @@
             <StackLayout>
                 <Grid ColumnDefinitions="*,*,*,*,*,*" Padding="5" BackgroundColor="LightGray">
                     <Label Text="ID" FontSize="16" FontAttributes="Bold" Grid.Column="0" HorizontalTextAlignment="Center"/>
-                    <Label Text="Apellido" FontSize="16" FontAttributes="Bold" Grid.Column="1" HorizontalTextAlignment="Center"/>
-                    <Label Text="Trabajo" FontSize="16" FontAttributes="Bold" Grid.Column="2" HorizontalTextAlignment="Center"/>
-                    <Label Text="Salario" FontSize="16" FontAttributes="Bold" Grid.Column="3" HorizontalTextAlignment="Center"/>
-                    <Label Text="Comision" FontSize="16" FontAttributes="Bold" Grid.Column="4" HorizontalTextAlignment="Center"/>
-                    <Label Text="Fecha de Inicio" FontSize="16" FontAttributes="Bold" Grid.Column="5" HorizontalTextAlignment="Center"/>
+                    <Label Text="Last Name" FontSize="16" FontAttributes="Bold" Grid.Column="1" HorizontalTextAlignment="Center"/>
+                    <Label Text="Job" FontSize="16" FontAttributes="Bold" Grid.Column="2" HorizontalTextAlignment="Center"/>
+                    <Label Text="Salary" FontSize="16" FontAttributes="Bold" Grid.Column="3" HorizontalTextAlignment="Center"/>
+                    <Label Text="Commission" FontSize="16" FontAttributes="Bold" Grid.Column="4" HorizontalTextAlignment="Center"/>
+                    <Label Text="Start Date" FontSize="16" FontAttributes="Bold" Grid.Column="5" HorizontalTextAlignment="Center"/>
                 </Grid>
 
                 <ListView x:Name="Employee" HeightRequest="300" ItemTapped="OnEmployeeSelected">

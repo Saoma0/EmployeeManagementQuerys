@@ -8,7 +8,7 @@ namespace EmployeeManagement2.Data
 {
     public class DatabaseQuery
     {
-        // Cadena de conexión a la base de datos SQLite
+        // Cadena de conexión a la base de datos
         private readonly string _connectionString;
 
         public DatabaseQuery()
@@ -267,7 +267,7 @@ namespace EmployeeManagement2.Data
 
                 using (var command = new SqliteCommand(query, connection))
                 {
-                    // Agrega los parámetros necesarios para la actualización
+                    // Agrega los parámetros necesarios para actualizar
                     command.Parameters.AddWithValue("@LastName", lastName);
                     command.Parameters.AddWithValue("@Job", job);
                     command.Parameters.AddWithValue("@Salary", salary);
@@ -292,7 +292,7 @@ namespace EmployeeManagement2.Data
 
                 using (var command = new SqliteCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@EmployeeId", employeeId); // Agrega el parámetro del ID del empleado
+                    command.Parameters.AddWithValue("@EmployeeId", employeeId);
                     await command.ExecuteNonQueryAsync(); // Ejecuta la consulta de eliminación
                 }
             }
