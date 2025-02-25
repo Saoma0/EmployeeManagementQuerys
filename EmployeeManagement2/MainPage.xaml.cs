@@ -22,8 +22,8 @@ public partial class MainPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await LoadDepartment(); // Carga los departamentos al aparecer la p·gina
-        await LoadEmployees(); // Carga los empleados al aparecer la p·gina
+        await LoadDepartment(); // Carga los departamentos al aparecer la p√°gina
+        await LoadEmployees(); // Carga los empleados al aparecer la p√°gina
     }
 
     //Carga los departamentos
@@ -37,7 +37,7 @@ public partial class MainPage : ContentPage
     // Carga los empleados
     private async Task LoadEmployees()
     {
-        var selectedLocation = pickerDepartmentLocation.SelectedItem as Department; // Obtiene la ubicaciÛn seleccionada
+        var selectedLocation = pickerDepartmentLocation.SelectedItem as Department; // Obtiene la ubicaci√≥n seleccionada
         if (selectedLocation != null)
         {
             employeeList = await dataBaseQuery.SelectEmployeesByLocation(selectedLocation.Location);
@@ -128,12 +128,12 @@ public partial class MainPage : ContentPage
         {
             // Inserta el nuevo empleado
             await dataBaseQuery.InsertEmployee(lastName, job, salary, commission, startDate, departmentId); 
-            await DisplayAlert("Exito", "Empleado aÒadido correctamente", "OK");
+            await DisplayAlert("Exito", "Empleado a√±adido correctamente", "OK");
             ClearInputFields(); // Limpia los campos de entrada
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", "A Ocurrido un Error al aÒadir un empleado", "OK");
+            await DisplayAlert("Error", "A Ocurrido un Error al a√±adir un empleado", "OK");
         }
     }
 
@@ -190,7 +190,7 @@ public partial class MainPage : ContentPage
     // Limpia los campos de entrada
     private void OnClearDataEntry(object sender, EventArgs e)
     {
-        ClearInputFields(); // Llama al mÈtodo para limpiar los campos
+        ClearInputFields(); // Llama al m√©todo para limpiar los campos
     }
 
     //Evento al seleccionar un empleado
@@ -218,8 +218,8 @@ public partial class MainPage : ContentPage
             return;
         }
 
-        // Confirma la eliminaciÛn
-        bool confirm = await DisplayAlert("ConfirmaciÛn", "Seguro que quieres eliminar este Empleado?", "Yes", "No");
+        // Confirma la eliminaci√≥n
+        bool confirm = await DisplayAlert("Confirmaci√≥n", "Seguro que quieres eliminar este Empleado?", "Yes", "No");
         if (confirm)
         {
             try
@@ -245,12 +245,12 @@ public partial class MainPage : ContentPage
         }
     }
 
-    // Evento al cambiar la opcion de b˙squeda
+    // Evento al cambiar la opcion de b√∫squeda
     private void OnSearchByChanged(object sender, EventArgs e)
     {
-        string selectedCriteria = pickerSearchBy.SelectedItem as string;
+        string selectedOption = pickerSearchBy.SelectedItem as string;
 
-        // Muestra y oculta al elegir la opcion de Fecha
+        // Muestra y oculta el searchBar y el datePicker
         if (selectedCriteria == "Start Date")
         {
             searchBar.IsVisible = false; 
@@ -351,7 +351,7 @@ public partial class MainPage : ContentPage
     }
 
 
-    // MÈtodo para limpiar los campos de entrada
+    // M√©todo para limpiar los campos de entrada
     private void ClearInputFields()
     {
         entryLastName.Text = string.Empty;
